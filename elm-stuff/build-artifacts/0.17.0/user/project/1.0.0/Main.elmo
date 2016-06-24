@@ -1,0 +1,79 @@
+var _user$project$Main$butts = function (fc) {
+	return A2(
+		_elm_lang$html$Html$li,
+		_elm_lang$core$Native_List.fromArray(
+			[]),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_elm_lang$html$Html$text(
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					fc.filename,
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						': ',
+						_elm_lang$core$Basics$toString(fc.count))))
+			]));
+};
+var _user$project$Main$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$ul,
+		_elm_lang$core$Native_List.fromArray(
+			[]),
+		A2(_elm_lang$core$List$map, _user$project$Main$butts, model));
+};
+var _user$project$Main$testJson = '[{\"filename\":\"CHANGELOG.md\",\"count\":1316},{\"filename\":\"Gemfile.lock\",\"count\":243}]';
+var _user$project$Main$FileCount = F2(
+	function (a, b) {
+		return {filename: a, count: b};
+	});
+var _user$project$Main$fileCountDecoder = _elm_lang$core$Json_Decode$list(
+	A3(
+		_elm_lang$core$Json_Decode$object2,
+		_user$project$Main$FileCount,
+		A2(_elm_lang$core$Json_Decode_ops[':='], 'filename', _elm_lang$core$Json_Decode$string),
+		A2(_elm_lang$core$Json_Decode_ops[':='], 'count', _elm_lang$core$Json_Decode$int)));
+var _user$project$Main$FetchFail = function (a) {
+	return {ctor: 'FetchFail', _0: a};
+};
+var _user$project$Main$FetchSucceed = function (a) {
+	return {ctor: 'FetchSucceed', _0: a};
+};
+var _user$project$Main$getJson = function () {
+	var url = 'http://localhost:9876/';
+	return A3(
+		_elm_lang$core$Task$perform,
+		_user$project$Main$FetchFail,
+		_user$project$Main$FetchSucceed,
+		A2(_evancz$elm_http$Http$get, _user$project$Main$fileCountDecoder, url));
+}();
+var _user$project$Main$init = {
+	ctor: '_Tuple2',
+	_0: _elm_lang$core$Native_List.fromArray(
+		[]),
+	_1: _user$project$Main$getJson
+};
+var _user$project$Main$update = F2(
+	function (msg, model) {
+		var _p0 = msg;
+		switch (_p0.ctor) {
+			case 'FetchData':
+				return {ctor: '_Tuple2', _0: model, _1: _user$project$Main$getJson};
+			case 'FetchSucceed':
+				return {ctor: '_Tuple2', _0: _p0._0, _1: _elm_lang$core$Platform_Cmd$none};
+			default:
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+		}
+	});
+var _user$project$Main$main = {
+	main: _elm_lang$html$Html_App$program(
+		{
+			init: _user$project$Main$init,
+			subscriptions: function (_p1) {
+				return _elm_lang$core$Platform_Sub$none;
+			},
+			view: _user$project$Main$view,
+			update: _user$project$Main$update
+		})
+};
+var _user$project$Main$FetchData = {ctor: 'FetchData'};
