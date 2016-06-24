@@ -4,8 +4,6 @@ import Json.Decode exposing (..)
 import Http
 import Task
 
-testJson = "[{\"filename\":\"CHANGELOG.md\",\"count\":1316},{\"filename\":\"Gemfile.lock\",\"count\":243}]"
-
 main =
   Html.App.program { init = init, subscriptions = \_ -> Sub.none, view = view, update = update }
 
